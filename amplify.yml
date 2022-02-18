@@ -6,10 +6,10 @@ frontend:
         - npm install
     build:
       commands:
-        - echo "NEO4JPASSWORD=$NEO4JPASSWORD" >> .env
-        - echo "NEO4JURI=$NEO4JURI" >> .env
-        - echo "NEO4JUSER=$NEO4JUSER" >> .env
-        - echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+        - echo "REACT_APP_NEO4JPASSWORD=$REACT_APP_NEO4JPASSWORD" >> .env
+        - echo "REACT_APP_NEO4JURI=$REACT_APP_NEO4JURI" >> .env
+        - echo "REACT_APP_NEO4JUSER=$REACT_APP_NEO4JUSER" >> .env
+        - echo "REACT_APP_OPENAI_API_KEY=$REACT_APP_OPENAI_API_KEY" >> .env
         - npm run build
   artifacts:
     baseDirectory: build
