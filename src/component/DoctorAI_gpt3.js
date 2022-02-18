@@ -14,14 +14,14 @@ require('dotenv').config()
 const { Configuration, OpenAIApi } = require("openai");
 const neo4j = require('neo4j-driver')
 
-console.log("process.env.NEO4JURI", process.env.NEO4JURI);
+console.log("process.env.REACT_APP_NEO4JURI", process.env.REACT_APP_NEO4JURI);
 
 
-const driver = neo4j.driver(process.env.NEO4JURI, neo4j.auth.basic(process.env.NEO4JUSER, process.env.NEO4JPASSWORD))
+const driver = neo4j.driver(process.env.REACT_APP_NEO4JURI, neo4j.auth.basic(process.env.REACT_APP_NEO4JUSER, process.env.REACT_APP_NEO4JPASSWORD))
 const session = driver.session()
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
 
