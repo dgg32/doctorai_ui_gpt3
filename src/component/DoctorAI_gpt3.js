@@ -18,6 +18,8 @@ console.log("process.env.REACT_APP_NEO4JURI", process.env.REACT_APP_NEO4JURI);
 
 
 const driver = neo4j.driver(process.env.REACT_APP_NEO4JURI, neo4j.auth.basic(process.env.REACT_APP_NEO4JUSER, process.env.REACT_APP_NEO4JPASSWORD))
+
+
 const session = driver.session()
 
 const configuration = new Configuration({
