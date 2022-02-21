@@ -14,9 +14,6 @@ require('dotenv').config()
 const { Configuration, OpenAIApi } = require("openai");
 const neo4j = require('neo4j-driver')
 
-console.log("process.env.REACT_APP_NEO4JURI", process.env.REACT_APP_NEO4JURI);
-
-
 const driver = neo4j.driver(process.env.REACT_APP_NEO4JURI, neo4j.auth.basic(process.env.REACT_APP_NEO4JUSER, process.env.REACT_APP_NEO4JPASSWORD))
 
 
@@ -58,34 +55,9 @@ class DoctorAI extends Component {
 
   callDoctorAI() {
 
-    console.log(process.env)
-
     const self = this;
     const { steps } = this.props;
     const search = steps.user.value;
-
-    // const lexParams = {
-    //   credentials: {accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, secretAccessKey: process.env.REACT_APP_AWS_SECRET},
-    //   userId: process.env.REACT_APP_AWS_USERID, 
-    //   region: process.env.REACT_APP_AWS_REGION
-    //   //region: "us-east-1"
-    // };
-
-    // const input = {
-    //     //botAliasId: process.env.REACT_APP_LEX_botAliasId,
-    //     botAliasId: "TSTALIASID",
-    //     botId: process.env.REACT_APP_LEX_botId,
-    //     //localeId: process.env.REACT_APP_LEX_localeId,
-    //     //sessionId: process.env.REACT_APP_LEX_sessionId,
-    //     localeId: "en_US",
-    //     sessionId: "test_session",
-    //     requestContentType: 'text/plain; charset=utf-8',
-    //     text: search
-    // }
-
-    //const client = new LexRuntimeV2Client(lexParams);
-    //const command = new RecognizeTextCommand(input);
-    //console.log(command);
 
     async function callAsync() {
       let training = `
@@ -98,13 +70,18 @@ MATCH (p:Patient {patient_id: "id_1"})-[:HAS_STAY]->(v:PatientUnitStay) RETURN v
 #Which drug treats COVID-19?
 MATCH (d:Compound)-[:treats]->(c:Disease {name: "COVID-19"}) RETURN d.name
 
+#Which kind of compound treats COVID-19?
+MATCH (d:Compound)-[:treats]->(c:Disease {name: "COVID-19"}) RETURN d.name
 
 #Which pathogen causes Kyasanur Forest disease?
 MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "Kyasanur Forest disease"}) RETURN o.name
 
-
 #Which pathogen causes COVID-19?
 MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "COVID-19"}) RETURN o.name
+
+#Which organism causes COVID-19?
+MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "COVID-19"}) RETURN o.name
+
 
 #Which gene causes Christianson syndrome?
 MATCH (g:Gene)-[r1:associates]->(d:Disease {name: "Christianson syndrome"}) RETURN g.name
@@ -119,18 +96,15 @@ MATCH (s1:Symptom {name: "Dyspepsia"}) <-[:presents]- (d:Disease) MATCH (s2:Symp
 
 #`;
 
-      //let Your_question = "Tell me something about the disease called COVID-19?";
+      //let search = "Tell me something about the disease called COVID-19?";
 
       let query = training + search + "\n"
 
-
-      let cypher = ''
       let textToSpeak = ''
       try {
         console.log("query", query)
         if (search) {
-          //console.log("command", command);
-          //const response = await client.send(command);
+
           const response = await openai.createCompletion("davinci", {
             prompt: query,
             temperature: 0,
@@ -142,7 +116,7 @@ MATCH (s1:Symptom {name: "Dyspepsia"}) <-[:presents]- (d:Disease) MATCH (s2:Symp
           });
 
           console.log('response:', response);
-          cypher = response.data.choices[0].text;
+          let cypher = response.data.choices[0].text;
           console.log('Doctor AI:' + cypher);
 
           try {
