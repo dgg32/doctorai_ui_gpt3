@@ -8,7 +8,7 @@ This is the React front-end app for Doctor.ai, our proud submission to the SINGA
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 
 In DoctorAI_gpt3.js, you need to set the Neo4j connection detail in Line 17. And you also need to set the GPT-3 secret key in Line 23.
 
