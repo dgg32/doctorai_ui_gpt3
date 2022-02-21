@@ -1,7 +1,6 @@
 import './App.css';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
-//import DoctorAI from './component/DoctorAI';
 import DoctorAI from './component/DoctorAI_gpt3';
 
 

@@ -79,8 +79,8 @@ MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "Kyasanur Forest disease"}) RETU
 #Which pathogen causes COVID-19?
 MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "COVID-19"}) RETURN o.name
 
-#Which organism causes COVID-19?
-MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "COVID-19"}) RETURN o.name
+#Which organism causes Cowpox?
+MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "Cowpox"}) RETURN o.name
 
 
 #Which gene causes Christianson syndrome?
