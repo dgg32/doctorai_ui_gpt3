@@ -157,7 +157,7 @@ MATCH (d:Disease)-[:localizes]->(a:Anatomy) WHERE a.name =~ '(?i)frontal sinus' 
         }
       }
       catch (error) {
-        console.log(process.env);
+        //console.log(process.env);
         console.error(error)
         console.log('Doctor AI:' + textToSpeak);
         textToSpeak = "Sorry I can't answer that. Could you please try again?"
