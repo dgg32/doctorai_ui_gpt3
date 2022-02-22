@@ -14,7 +14,7 @@ In DoctorAI_gpt3.js, you need to set the Neo4j connection detail in Line 17. And
 
 ## To try this on the cloud
 
-Please refer to our article in Medium.
+Please refer to our [article in Medium](https://medium.com/p/1396d1cd6fa5).
 
 ## Authors
 *  **Sixing Huang**
