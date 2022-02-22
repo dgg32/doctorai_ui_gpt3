@@ -62,37 +62,51 @@ class DoctorAI extends Component {
     async function callAsync() {
       let training = `
 #How many times did patient id_1 visit the ICU?
-MATCH (p:Patient {patient_id: "id_1"})-[:HAS_STAY]->(v:PatientUnitStay) RETURN COUNT(v)
+MATCH (p:Patient)-[:HAS_STAY]->(v:PatientUnitStay) WHERE p.patient_id =~ '(?i)id_1' RETURN COUNT(v)
 
 #When did patient id_1 visit the ICU?
-MATCH (p:Patient {patient_id: "id_1"})-[:HAS_STAY]->(v:PatientUnitStay) RETURN v.hospitaldischargeyear
+MATCH (p:Patient)-[:HAS_STAY]->(v:PatientUnitStay) WHERE p.patient_id =~ '(?i)id_1' RETURN v.hospitaldischargeyear
 
 #Which drug treats COVID-19?
-MATCH (d:Compound)-[:treats]->(c:Disease {name: "COVID-19"}) RETURN d.name
+MATCH (d:Compound)-[:treats]->(c:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN d.name
 
 #Which kind of compound treats COVID-19?
-MATCH (d:Compound)-[:treats]->(c:Disease {name: "COVID-19"}) RETURN d.name
+MATCH (d:Compound)-[:treats]->(c:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN d.name
 
 #Which pathogen causes Kyasanur Forest disease?
-MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "Kyasanur Forest disease"}) RETURN o.name
+MATCH (o:Pathogen)-[:causes]->(d:Disease) WHERE d.name =~ '(?i)Kyasanur Forest disease' RETURN o.name
 
 #Which pathogen causes COVID-19?
-MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "COVID-19"}) RETURN o.name
+MATCH (o:Pathogen)-[:causes]->(d:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN o.name
+
+#What is the disease agent for COVID-19?
+MATCH (o:Pathogen)-[:causes]->(d:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN o.name
 
 #Which organism causes Cowpox?
-MATCH (o:Pathogen)-[:causes]->(d:Disease {name: "Cowpox"}) RETURN o.name
+MATCH (o:Pathogen)-[:causes]->(d:Disease) WHERE d.name =~ '(?i)Cowpox' RETURN o.name
 
 
 #Which gene causes Christianson syndrome?
-MATCH (g:Gene)-[r1:associates]->(d:Disease {name: "Christianson syndrome"}) RETURN g.name
+MATCH (g:Gene)-[r1:associates]->(d:Disease) WHERE d.name =~ '(?i)Christianson syndrome' RETURN g.name
 
 #Tell me something about the disease named "Christianson syndrome"
-MATCH (d:Disease {name: "Christianson syndrome"}) RETURN d.description
+MATCH (d:Disease) WHERE d.name =~ '(?i)Christianson syndrome' RETURN d.description
 
 
 #I have Dyspepsia, Hiccup and Edema. What can be the cause of this?
-MATCH (s1:Symptom {name: "Dyspepsia"}) <-[:presents]- (d:Disease) MATCH (s2:Symptom {name: "Hiccup"}) <-[:presents]- (d:Disease) MATCH (s3:Symptom {name: "Edema"}) <-[:presents]- (d:Disease) RETURN d.name
+MATCH (s1:Symptom) <-[:presents]- (d:Disease) WHERE s1.name =~ '(?i)Dyspepsia'  MATCH (s2:Symptom) <-[:presents]- (d:Disease) WHERE s2.name =~ '(?i)Hiccup'  MATCH (s3:Symptom) <-[:presents]- (d:Disease) WHERE s3.name =~ '(?i)Edema' RETURN d.name
 
+#what kinds of side effects do Doxepin have?
+MATCH (d:Compound)-[:causes]->(s:\`Side Effect\`) WHERE d.name =~ '(?i)Doxepin' RETURN s.name
+
+#what functions does the gene PCBD1 have?
+MATCH (g:Gene)-[:participates]->(f:\`Molecular Function\`) WHERE g.name =~ '(?i)PCBD1' RETURN f.name
+
+#which kinds of cancers can be found in frontal sinus?
+MATCH (d:Disease)-[:localizes]->(a:Anatomy) WHERE a.name =~ '(?i)frontal sinus' AND (d.name CONTAINS "cancer" OR d.disease_category = "Cancer") RETURN DISTINCT(d.name)
+
+#Which tumors can you find in frontal sinus?
+MATCH (d:Disease)-[:localizes]->(a:Anatomy) WHERE a.name =~ '(?i)frontal sinus' AND (d.name CONTAINS "cancer" OR d.disease_category = "Cancer") RETURN DISTINCT(d.name)
 
 #`;
 
