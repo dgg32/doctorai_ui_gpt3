@@ -16,6 +16,10 @@ In DoctorAI_gpt3.js, you need to set the Neo4j connection detail in Line 17. And
 
 Please refer to our [article in Medium](https://medium.com/p/1396d1cd6fa5).
 
+## On the client side
+
+You need to add the https://[EC_public_ip]:7687 as exception in your browser. Otherwise the browser will complain "WebSocket connection failure".
+
 ## Authors
 *  **Sixing Huang**
 *  **Maruthi Prithivirajan**
