@@ -68,10 +68,10 @@ MATCH (p:Patient)-[:HAS_STAY]->(v:PatientUnitStay) WHERE p.patient_id =~ '(?i)id
 MATCH (p:Patient)-[:HAS_STAY]->(v:PatientUnitStay) WHERE p.patient_id =~ '(?i)id_1' RETURN v.hospitaldischargeyear
 
 #Which drug treats COVID-19?
-MATCH (d:Compound)-[:treats]->(c:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN d.name
+MATCH (d:Compound)-[:treats]->(c:Disease) WHERE c.name =~ '(?i)COVID-19' RETURN d.name
 
 #Which kind of compound treats COVID-19?
-MATCH (d:Compound)-[:treats]->(c:Disease) WHERE d.name =~ '(?i)COVID-19' RETURN d.name
+MATCH (d:Compound)-[:treats]->(c:Disease) WHERE c.name =~ '(?i)COVID-19' RETURN d.name
 
 #Which pathogen causes Kyasanur Forest disease?
 MATCH (o:Pathogen)-[:causes]->(d:Disease) WHERE d.name =~ '(?i)Kyasanur Forest disease' RETURN o.name
